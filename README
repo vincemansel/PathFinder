@@ -1,0 +1,3 @@
+From the user's point of view, the program draws a graph and provides two operations: finding the
+shortest path between two locations and constructing the minimal cost network. The user chooses the
+graph data file for the program to read and display.
