@@ -49,8 +49,7 @@ class PQueueT
      * elements to determine ordering.
 	 */
 	PQueueT(int (*cmpFn)(ElemType, ElemType) = OperatorCmp);
-
-
+    
 	/*
 	 * Destructor: ~PQueueT
 	 * Usage: delete ppq;
@@ -95,7 +94,7 @@ class PQueueT
 	 * Removes the largest priority element from this PQueueT and returns it.
 	 * If this PQueueT is empty, this function raises an error.
 	 */
-	ElemType dequeueMax();
+	ElemType dequeue();
 
 	/*
 	 * Member function: implementationName

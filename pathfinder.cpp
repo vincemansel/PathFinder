@@ -1,18 +1,23 @@
-/* pathfinder.cpp
+//
+//  pathfinder.cpp
+//  pathfinder
+//
+//  Created by Vince Mansel on 10/27/11.
+//  Copyright (c) 2011 Wave Ocean Software. All rights reserved.
+//
+
+/*
  * ---------------
- * A starter file with some starting constants and handy utility routines.
+ * From the user's point of view, the program draws a graph
+ * and provides two operations: finding the shortest path
+ * between two locations and constructing the minimal cost network.
+ * The user chooses the graph data file for the program to read and display.
+ *
+ * This is the main file with some starting constants and handy utility routines.
  */
- 
-#include "genlib.h"
-#include "extgraph.h"
-#include <iostream>
-#include <fstream>
-#include <cmath>
-#include "vector.h"
-#include "set.h"
-#include "map.h"
-#include "queue.h"
-#include "simpio.h"
+
+#include "common.h"
+#include "shortestPathFirst.h"
 
 /* Constants
  * --------
@@ -21,14 +26,14 @@
 const double CircleRadius =.05;     	// the radius of a node
 const int LabelFontSize = 9;          // for node name labels
 
-
-/* Type: coordT
- * ------------
- * Just a simple struct to handle a pair of x,y coordinate values.
- */
-struct coordT {
-	double x, y;
-};
+// Moved to common.h
+///* Type: coordT
+// * ------------
+// * Just a simple struct to handle a pair of x,y coordinate values.
+// */
+//struct coordT {
+//	double x, y;
+//};
 
 
 /* Function: DrawFilledCircleWithLabel
@@ -54,18 +59,19 @@ void DrawFilledCircleWithLabel(coordT center, string color, string label = "")
 	}
 }
 
-/* Function: DrawLineBetween
- * Usage:  DrawLineBetween(coord1, coord2, "Black");
- * -------------------------------------------------
- * Uses facilities from extgraph to draw a line of the
- * specified color between the two given coordinates.
- */
-void DrawLineBetween(coordT start, coordT end, string color)
-{
-	SetPenColor(color);
-	MovePen(start.x, start.y);
-	DrawLine(end.x - start.x, end.y - start.y);
-}
+// Moved to common.h
+///* Function: DrawLineBetween
+// * Usage:  DrawLineBetween(coord1, coord2, "Black");
+// * -------------------------------------------------
+// * Uses facilities from extgraph to draw a line of the
+// * specified color between the two given coordinates.
+// */
+//void DrawLineBetween(coordT start, coordT end, string color)
+//{
+//	SetPenColor(color);
+//	MovePen(start.x, start.y);
+//	DrawLine(end.x - start.x, end.y - start.y);
+//}
 
 
 /* Function: GetMouseClick
@@ -99,25 +105,26 @@ bool WithinDistance(coordT pt1, coordT pt2, double maxDistance = CircleRadius*2)
 	return (distance <= maxDistance);
 }
 
-struct nodeT;
-
-struct arcT {
-    nodeT *start, *end;
-    double distance;
-};
-
-struct nodeT {
-    string name;
-    double x;
-    double y;
-    Vector<arcT *> links;
-};
+// Moved to common.h
+//struct nodeT;
+//
+//struct arcT {
+//    nodeT *start, *end;
+//    double distance;
+//};
+//
+//struct nodeT {
+//    string name;
+//    double x;
+//    double y;
+//    Vector<arcT *> links;
+//};
 
 string ReadGraph(Set<nodeT *> &graph, Map<nodeT *> &graphMap, string datafile);
 void PrintGraphMap(Map<nodeT *> &graphMap);
 void PrintGraph(Set<nodeT *> &graph);
 void DrawNodesAndArcs(Set<nodeT *> graph);
-void HandleShortestPath(Set<nodeT *> graph, Map<nodeT *> &graphMap);
+void HandleShortestPath(Set<nodeT *> &graph, Map<nodeT *> &graphMap);
 
 int main()
 {
@@ -149,10 +156,12 @@ int main()
         switch (choice) {
             case 1:
                 cout << "Enter the name of the data file: ";
-                //datafile = GetLine();
+                datafile = GetLine();
                 //datafile = "Small.txt";
-                datafile = "USA.txt";
+                //datafile = "USA.txt";
                 //datafile = "Stanford.txt";
+                graph.clear();
+                graphMap.clear();
                 backgroundFile = ReadGraph(graph, graphMap, datafile);
                 break;
             case 2:
@@ -296,12 +305,13 @@ void PrintGraph(Set<nodeT *> &graph) {
     }
 }
 
-coordT GetCoords(nodeT *n) {
-    coordT center;
-    center.x = n->x;
-    center.y = n->y;
-    return center;
-}
+// Moved to common.h
+//coordT GetCoords(nodeT *n) {
+//    coordT center;
+//    center.x = n->x;
+//    center.y = n->y;
+//    return center;
+//}
 
 void DrawNodesAndArcs(Set<nodeT *> graph) {
     Set<nodeT *>::Iterator itr = graph.iterator();
@@ -347,11 +357,12 @@ nodeT * GetPoint(Set<nodeT *> graph, string message, string color) {
     return node;
 }
 
-void HandleShortestPath(Set<nodeT *> graph, Map<nodeT *> &graphMap) {
+void HandleShortestPath(Set<nodeT *> &graph, Map<nodeT *> &graphMap) {
     
     nodeT *node1 = GetPoint(graph, "Click on the starting point in the Map", "Green");
     nodeT *node2 = GetPoint(graph, "Click on the ending point in the Map", "Red");
     
+    ShortestPathFirst(graph, graphMap, node1, node2);
 }
 
 

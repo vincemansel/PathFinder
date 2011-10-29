@@ -97,7 +97,7 @@ void PQueueT<ElemType>::enqueue(ElemType newValue)
  * --------------------------------
  */
 template <typename ElemType>
-ElemType PQueueT<ElemType>::dequeueMax()
+ElemType PQueueT<ElemType>::dequeue()
 {
 	//cout << "PQueueT::dequeueMax():";
     if (isEmpty()) {

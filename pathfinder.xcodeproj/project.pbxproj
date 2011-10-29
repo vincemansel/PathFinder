@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		A87AE762143131920059B140 /* utility.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A87AE761143131920059B140 /* utility.a */; };
+		A8AF48E4145B5333002C5534 /* shortestPathFirst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A8AF48E3145B5333002C5534 /* shortestPathFirst.cpp */; };
+		A8AF48E7145B8934002C5534 /* common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A8AF48E6145B8934002C5534 /* common.cpp */; };
 		A8D8950D1459E9D100BEDCFF /* pathfinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A8D895061459E9D100BEDCFF /* pathfinder.cpp */; };
 		A8D8950E1459E9D100BEDCFF /* Stanford.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A8D895081459E9D100BEDCFF /* Stanford.jpg */; };
 		A8D8950F1459E9D100BEDCFF /* USA.bmp in Resources */ = {isa = PBXBuildFile; fileRef = A8D895091459E9D100BEDCFF /* USA.bmp */; };
@@ -24,6 +26,10 @@
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* pathfinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pathfinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A87AE761143131920059B140 /* utility.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = utility.a; path = utility/utility.a; sourceTree = "<group>"; };
+		A8AF48E2145B5266002C5534 /* shortestPathFirst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = shortestPathFirst.h; sourceTree = "<group>"; };
+		A8AF48E3145B5333002C5534 /* shortestPathFirst.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = shortestPathFirst.cpp; sourceTree = "<group>"; };
+		A8AF48E5145B5492002C5534 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		A8AF48E6145B8934002C5534 /* common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = common.cpp; sourceTree = "<group>"; };
 		A8D895061459E9D100BEDCFF /* pathfinder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pathfinder.cpp; sourceTree = "<group>"; };
 		A8D895081459E9D100BEDCFF /* Stanford.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Stanford.jpg; sourceTree = "<group>"; };
 		A8D895091459E9D100BEDCFF /* USA.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = USA.bmp; sourceTree = "<group>"; };
@@ -60,6 +66,10 @@
 		29B97314FDCFA39411CA2CEA /* blank-project */ = {
 			isa = PBXGroup;
 			children = (
+				A8AF48E6145B8934002C5534 /* common.cpp */,
+				A8AF48E5145B5492002C5534 /* common.h */,
+				A8AF48E3145B5333002C5534 /* shortestPathFirst.cpp */,
+				A8AF48E2145B5266002C5534 /* shortestPathFirst.h */,
 				A8D895061459E9D100BEDCFF /* pathfinder.cpp */,
 				A8D895071459E9D100BEDCFF /* Pictures */,
 				A8D8950A1459E9D100BEDCFF /* Small.txt */,
@@ -166,6 +176,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A8D8950D1459E9D100BEDCFF /* pathfinder.cpp in Sources */,
+				A8AF48E4145B5333002C5534 /* shortestPathFirst.cpp in Sources */,
+				A8AF48E7145B8934002C5534 /* common.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
