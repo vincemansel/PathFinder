@@ -123,11 +123,16 @@ bool WithinDistance(coordT pt1, coordT pt2, double maxDistance = CircleRadius*2)
 //    Vector<arcT *> links;
 //};
 
+struct graphT {
+    Set<nodeT *> allNodes;
+};
+
 string ReadGraph(Set<nodeT *> &graph, Map<nodeT *> &graphMap, string datafile);
 void PrintGraphMap(Map<nodeT *> &graphMap);
 void PrintGraph(Set<nodeT *> &graph);
 void DrawNodesAndArcs(Set<nodeT *> graph);
 void HandleShortestPath(Set<nodeT *> &graph);
+bool IsCyclicGraph(graphT & graph);
 
 int main()
 {
@@ -149,13 +154,14 @@ int main()
         cout << "(1) Choose a new graph data file" << endl;
         cout << "(2) Find shortest path using Dijkstra's algorithm" << endl;
         cout << "(3) Compute the minimal spanning tree using Kruskal's algorithm" << endl;
-        cout << "(4) Quit" << endl;
+        cout << "(4) Determine if the graph has cycles" << endl;
+        cout << "(5) Quit" << endl;
         cout << "Enter choice: ";
         
         int choice = GetInteger();
         string datafile;
         void UpdateDisplay();
-
+        
         switch (choice) {
             case 1:
                 cout << "Enter the name of the data file: ";
@@ -194,6 +200,21 @@ int main()
                 }
                 break;
             case 4:
+                if (backgroundFile == "") {
+                    cout << "No file is specified" << endl;
+                }
+                else {
+                    graphT graph2;
+                    graph2.allNodes = graph;
+                    
+                    cout << "(4) Determining if the graph has cycles" << endl;
+                    if (IsCyclicGraph(graph2))
+                        cout << "Yes, it is cyclic" << endl;
+                    else
+                        cout << "No, it is not cyclic" << endl;
+                }
+                break;
+            case 5:
                 cout << "Thanks for using Pathfinder. Bye!" << endl;
                 timeToQuit = true;
                 break;
@@ -204,7 +225,7 @@ int main()
         }
         
         if (timeToQuit) break;
-
+        
     }
     return (0);
 }
@@ -233,7 +254,7 @@ string ReadGraph(Set<nodeT *> &graph, Map<nodeT *> &graphMap, string datafile) {
         if (n->name == "ARCS")
             break;
         else
-           inner >> n->x >> n->y;
+            inner >> n->x >> n->y;
         
         graphMap.add(n->name,n);
         graph.add(n);
@@ -242,10 +263,10 @@ string ReadGraph(Set<nodeT *> &graph, Map<nodeT *> &graphMap, string datafile) {
         
     }
     
-//    cout << endl << endl;
-//    cout << "THE GRAPH MAP" << endl;
-//    cout << endl;
-//    PrintGraphMap(graphMap);
+    //    cout << endl << endl;
+    //    cout << "THE GRAPH MAP" << endl;
+    //    cout << endl;
+    //    PrintGraphMap(graphMap);
     
     while (true) {
         if (inner.fail()) break; // no more lines to read
@@ -272,13 +293,13 @@ string ReadGraph(Set<nodeT *> &graph, Map<nodeT *> &graphMap, string datafile) {
         node1->links.add(arc1);
         node2->links.add(arc2);
     }
-  
+    
     inner.close();
     
-//    cout << endl << endl;
-//    cout << "THE GRAPH" << endl;
-//    PrintGraphMap(graphMap);
-//    PrintGraph(graph);
+    //    cout << endl << endl;
+    //    cout << "THE GRAPH" << endl;
+    //    PrintGraphMap(graphMap);
+    //    PrintGraph(graph);
     
     MovePen(0,0);
     DrawNamedPicture(background);
@@ -317,14 +338,6 @@ void PrintGraph(Set<nodeT *> &graph) {
         cout << endl;
     }
 }
-
-// Moved to common.h
-//coordT GetCoords(nodeT *n) {
-//    coordT center;
-//    center.x = n->x;
-//    center.y = n->y;
-//    return center;
-//}
 
 void DrawNodesAndArcs(Set<nodeT *> graph) {
     Set<nodeT *>::Iterator itr = graph.iterator();
@@ -378,4 +391,38 @@ void HandleShortestPath(Set<nodeT *> &graph) {
     ShortestPathFirst(node1, node2);
 }
 
+bool RecIsCyclic(nodeT * currentNode, nodeT * targetNode, int hops, Set<nodeT *> &visited) {
+    
+    if (hops > 2 && currentNode == targetNode)
+        return true;
+    
+    if (currentNode != targetNode)
+        visited.add(currentNode);
+    
+    Vector<arcT *>::Iterator itr = currentNode->links.iterator();
+    
+    while (itr.hasNext()) {
+        arcT * link = itr.next();
+        cout << " Link is (" << hops+1 << ") : " << link->end->name << endl;
+        if (!visited.contains(link->end) && !(hops+1 < 3 && link->end == targetNode)) {
+            cout << " Checking: " << link->end->name << endl;
+            if (RecIsCyclic(link->end, targetNode, hops+1, visited))
+                return true;
+        }
+    }
+    return false;
+}
 
+bool IsCyclicGraph(graphT & graph) {
+    
+    Set<nodeT *>::Iterator itr = graph.allNodes.iterator();
+    
+    while (itr.hasNext()) {
+        nodeT * currentNode = itr.next();
+        Set<nodeT *> visited;
+        cout << "Node is: " << currentNode->name << endl;
+        if (RecIsCyclic(currentNode, currentNode, 0, visited))
+            return true;
+    }
+    return false;
+}
