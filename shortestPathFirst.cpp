@@ -16,12 +16,12 @@ Vector<nodeT *> GetNeighbors(nodeT * current);
 bool isAccessible(nodeT * neighbor, nodeT * previous);
 double GetPathDistance(PathStackT path, bool doPrint);
 
-void MarkPath(Set<nodeT *> &graph, PathStackT path) {
-    cout << "Current Path: distance = " << GetPathDistance(path, true) << endl;
+void MarkPath(PathStackT path) {
+    //cout << "Current Path: distance = " << GetPathDistance(path, true) << endl;
     nodeT * node1 = path.pop();
     while (!path.isEmpty()) {
         nodeT * node2 = path.pop();
-        cout << node1->name << endl;
+        //cout << node1->name << endl;
         DrawLineBetween(GetCoords(node1), GetCoords(node2), "Green");
         node1 = node2;
     }
@@ -60,10 +60,9 @@ int CompareShortestPath(PathStackT path1, PathStackT path2) {
 	return 1; // ShortestPath
 }
 
-void ShortestPathFirst(Set<nodeT *> &graph,
-                       Map<nodeT *> &graphMap, nodeT *node1, nodeT *node2) {
+void ShortestPathFirst(nodeT *node1, nodeT *node2) {
     
-    cout << "SPF: IN" << endl;
+    //cout << "SPF: IN" << endl;
     
     PQueueT<PathStackT> qStore(CompareShortestPath);
     PathStackT paths;
@@ -89,8 +88,8 @@ void ShortestPathFirst(Set<nodeT *> &graph,
         current = path.pop();
         
         if (IsSame(goal, current)) {
-            cout << "Reached Goal" << endl;
-            MarkPath(graph, currentPath);
+            //cout << "Reached Goal" << endl;
+            MarkPath(currentPath);
             break;
         }
         
@@ -104,7 +103,7 @@ void ShortestPathFirst(Set<nodeT *> &graph,
             }
         }
     }    
-    cout << "SPF: OUT" << endl;
+    //cout << "SPF: OUT" << endl;
 }
 
 bool IsSame(nodeT * goal, nodeT * current) {

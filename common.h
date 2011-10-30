@@ -19,6 +19,14 @@
 #include "map.h"
 #include "simpio.h"
 
+/* Constants
+ * --------
+ * A few program-wide constants concerning the graphical display.
+ */
+const double CircleRadius =.05;     	// the radius of a node
+const int LabelFontSize = 9;          // for node name labels
+
+
 /* Type: coordT
  * ------------
  * Just a simple struct to handle a pair of x,y coordinate values.
@@ -52,6 +60,7 @@ coordT GetCoords(nodeT *n);
  */
 
 void DrawLineBetween(coordT start, coordT end, string color);
+void DrawFilledCircleWithLabel(coordT center, string color, string label = "");
 
 
 #endif

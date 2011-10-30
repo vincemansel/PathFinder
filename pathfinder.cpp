@@ -18,13 +18,15 @@
 
 #include "common.h"
 #include "shortestPathFirst.h"
+#include "minimumSpanningTree.h"
 
-/* Constants
- * --------
- * A few program-wide constants concerning the graphical display.
- */
-const double CircleRadius =.05;     	// the radius of a node
-const int LabelFontSize = 9;          // for node name labels
+// Moved to common.h
+///* Constants
+// * --------
+// * A few program-wide constants concerning the graphical display.
+// */
+//const double CircleRadius =.05;     	// the radius of a node
+//const int LabelFontSize = 9;          // for node name labels
 
 // Moved to common.h
 ///* Type: coordT
@@ -36,28 +38,29 @@ const int LabelFontSize = 9;          // for node name labels
 //};
 
 
-/* Function: DrawFilledCircleWithLabel
- * Usage:  DrawFilledCircleWithLabel(center, "Green", "You are here");
- * -------------------------------------------------------------------
- * Uses facilities from extgraph to draw a circle filled with
- * color specified. The circle is centered at the given coord has the
- * specified radius.  A label is drawn to the right of the circle.
- * You can leave off the last argument if no label is desired.
- */
-void DrawFilledCircleWithLabel(coordT center, string color, string label = "")
-{
-	MovePen(center.x + CircleRadius, center.y);
-	SetPenColor(color);
-	StartFilledRegion(1.0);
-	DrawArc(CircleRadius, 0, 360);
-	EndFilledRegion();
-	if (!label.empty()) {
-		MovePen(center.x + CircleRadius, center.y);
-		SetFont("Helvetica");
-		SetPointSize(LabelFontSize);
-		DrawTextString(label);
-	}
-}
+// Moved to common.h
+///* Function: DrawFilledCircleWithLabel
+// * Usage:  DrawFilledCircleWithLabel(center, "Green", "You are here");
+// * -------------------------------------------------------------------
+// * Uses facilities from extgraph to draw a circle filled with
+// * color specified. The circle is centered at the given coord has the
+// * specified radius.  A label is drawn to the right of the circle.
+// * You can leave off the last argument if no label is desired.
+// */
+//void DrawFilledCircleWithLabel(coordT center, string color, string label = "")
+//{
+//	MovePen(center.x + CircleRadius, center.y);
+//	SetPenColor(color);
+//	StartFilledRegion(1.0);
+//	DrawArc(CircleRadius, 0, 360);
+//	EndFilledRegion();
+//	if (!label.empty()) {
+//		MovePen(center.x + CircleRadius, center.y);
+//		SetFont("Helvetica");
+//		SetPointSize(LabelFontSize);
+//		DrawTextString(label);
+//	}
+//}
 
 // Moved to common.h
 ///* Function: DrawLineBetween
@@ -124,7 +127,7 @@ string ReadGraph(Set<nodeT *> &graph, Map<nodeT *> &graphMap, string datafile);
 void PrintGraphMap(Map<nodeT *> &graphMap);
 void PrintGraph(Set<nodeT *> &graph);
 void DrawNodesAndArcs(Set<nodeT *> graph);
-void HandleShortestPath(Set<nodeT *> &graph, Map<nodeT *> &graphMap);
+void HandleShortestPath(Set<nodeT *> &graph);
 
 int main()
 {
@@ -174,11 +177,21 @@ int main()
                     DrawNamedPicture(backgroundFile);
                     DrawNodesAndArcs(graph);
                     cout << "(2) Finding shortest path using Dijkstra's algorithm" << endl;
-                    HandleShortestPath(graph,graphMap);
+                    HandleShortestPath(graph);
                 }
                 break;
             case 3:
-                cout << "(3) Computing the minimal spanning tree using Kruskal's algorithm" << endl;
+                if (backgroundFile == "") {
+                    cout << "No file is specified" << endl;
+                }
+                else {
+                    cout << "(3) Computing the minimal spanning tree using Kruskal's algorithm" << endl;
+                    UpdateDisplay();
+                    MovePen(0,0);
+                    DrawNamedPicture(backgroundFile);
+                    //DrawNodesAndArcs(graph);
+                    minimumSpanningTree(graph, graphMap);
+                }
                 break;
             case 4:
                 cout << "Thanks for using Pathfinder. Bye!" << endl;
@@ -229,10 +242,10 @@ string ReadGraph(Set<nodeT *> &graph, Map<nodeT *> &graphMap, string datafile) {
         
     }
     
-    cout << endl << endl;
-    cout << "THE GRAPH MAP" << endl;
-    cout << endl;
-    PrintGraphMap(graphMap);
+//    cout << endl << endl;
+//    cout << "THE GRAPH MAP" << endl;
+//    cout << endl;
+//    PrintGraphMap(graphMap);
     
     while (true) {
         if (inner.fail()) break; // no more lines to read
@@ -262,10 +275,10 @@ string ReadGraph(Set<nodeT *> &graph, Map<nodeT *> &graphMap, string datafile) {
   
     inner.close();
     
-    cout << endl << endl;
-    cout << "THE GRAPH" << endl;
-    PrintGraphMap(graphMap);
-    PrintGraph(graph);
+//    cout << endl << endl;
+//    cout << "THE GRAPH" << endl;
+//    PrintGraphMap(graphMap);
+//    PrintGraph(graph);
     
     MovePen(0,0);
     DrawNamedPicture(background);
@@ -357,12 +370,12 @@ nodeT * GetPoint(Set<nodeT *> graph, string message, string color) {
     return node;
 }
 
-void HandleShortestPath(Set<nodeT *> &graph, Map<nodeT *> &graphMap) {
+void HandleShortestPath(Set<nodeT *> &graph) {
     
     nodeT *node1 = GetPoint(graph, "Click on the starting point in the Map", "Green");
     nodeT *node2 = GetPoint(graph, "Click on the ending point in the Map", "Red");
     
-    ShortestPathFirst(graph, graphMap, node1, node2);
+    ShortestPathFirst(node1, node2);
 }
 
 

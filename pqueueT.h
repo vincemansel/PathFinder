@@ -124,7 +124,7 @@ class PQueueT
 
 	// Disallow copying for all implementations as
 	// a precaution
-	//DISALLOW_COPYING(PQueueT)
+	DISALLOW_COPYING(PQueueT)
     
 	Vector<ElemType> heap;
     int (*cmpFn) (ElemType, ElemType);

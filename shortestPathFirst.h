@@ -13,7 +13,6 @@
 #include "common.h"
 #include "pqueueT.h"
 
-void ShortestPathFirst(Set<nodeT *> &graph,
-                       Map<nodeT *> &graphMap, nodeT *node1, nodeT *node2);
+void ShortestPathFirst(nodeT *node1, nodeT *node2);
 
 #endif
